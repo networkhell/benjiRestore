@@ -133,7 +133,7 @@ function getRestore () {
 	local restore=""
 	local mount=$(echo ${1} | cut -d "/" -f2)
 	restore=`dialog --title "Benji Restore" --menu "How to restore the disk image?" 0 0 0 \
-	 "NBD" "READONLY - Spin up an NBD server and mount the image on /mnt/benjiRestore/$mount" "RBD" "Restore the disk image to Ceph - ${1}" "FILE" "Restore the disk image to a raw disk image file on the local file system" 3>&1 1>&2 2>&3`
+	 "NBD" "READONLY - Spin up an NBD server and mount the image on /mnt/benjiRestore/$mount" "RBD" "Restore the disk image to Ceph - ${1}" "FILE" "Restore the disk image to a raw disk image file on the local file system in /data/benjiRestore/..." 3>&1 1>&2 2>&3`
         rc=$?
 	if [ $rc -eq 1 ]; then
 	    return 1
