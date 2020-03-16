@@ -151,7 +151,9 @@ function launchNbd () {
     benji nbd -r & > /dev/null 2>&1
     NBD_PID=$!
     mkdir -p $BASEPATH/$MOUNT
-    nbd-client -d /dev/nbd666
+    if [ -f /dev/nbd666 ]; then
+        nbd-client -d /dev/nbd666
+    fi
     sleep 2
     nbd-client -b 512 -t 10 -N ${1} localhost /dev/nbd666
     sleep 2
@@ -201,7 +203,9 @@ function cleanup {
     clear
     if [ "$RESTORE" = "NBD" ] && [ "$MOUNT" != "" ]; then
       umount -f $BASEPATH/$MOUNT && rmdir $BASEPATH/$MOUNT
-      nbd-client -d /dev/nbd666
+	  if [ -f /dev/nbd666 ]; then
+          nbd-client -d /dev/nbd666
+	  fi
       kill -9 $NBD_PID
       if [ "$(echo 'select * from locks;'|sqlite3 $SQLITE)" != "" ]; then
           echo "backing up database before modifying it" 
